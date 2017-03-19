@@ -1,4 +1,4 @@
-#import wget
+import wget
 import numpy as np
 import pandas as pd
 import time
@@ -124,7 +124,7 @@ def get_shp_extent(shp_file):
         Boundary location of the shapefile (x_min, x_max, y_min, y_max)
     """
     inDriver = ogr.GetDriverByName("ESRI Shapefile")
-    inDataSource = inDriver.Open(inShapefile, 0)
+    inDataSource = inDriver.Open(shp_file, 0)
     inLayer = inDataSource.GetLayer()
     extent = inLayer.GetExtent()
     # x_min_shp, x_max_shp, y_min_shp, y_max_shp = extent
@@ -192,8 +192,8 @@ def main(argv):
     print('top index row: %s' % top_idx)
 
     # print key
-    key = os.getenv('GMAP_API_%s' % key_id)
-    print('key variable: GMAP_API_%s, key: %s' % (key_id, key))
+    key = os.getenv('GMAP_API_KEY_%s' % key_id)
+    print('key variable: GMAP_API_KEY_%s, key: %s' % (key_id, key))
 
     # retrieve nightlights data (run only once)
     #night_image_url = 'https://ngdc.noaa.gov/eog/data/web_data/v4composites/F182010.v4.tar'
@@ -251,7 +251,7 @@ def main(argv):
                 if not os.path.isdir(file_path):
                     os.makedirs(file_path)
                 file_name = str(i) + '_' + str(j) +'.png'
-                print 'm: %s, lightness: %s, file_name: %s, url: %s' % (m, lightness, file_name, url)
+                print 'm: %s, lightness: %s, file_name: %s, url: %s' % (m, lightness, file_path, url)
                 save_img(url, file_path, file_name)
                 if m % 100 == 0:
                     print m
