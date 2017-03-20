@@ -174,7 +174,7 @@ def help():
 # run main
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "h", ["topidx=", "keyid="])
+        opts, args = getopt.getopt(argv, "h", ["topidx=", "bottomidx=", "keyid="])
     except getopt.GetoptError:
         sys.exit(2)
 
@@ -184,12 +184,15 @@ def main(argv):
             sys.exit(2)
         elif opt == '--topidx':
             top_idx_param = int(arg)
-
+        elif opt == '--bottomidx':
+            bottom_idx_param = int(arg)
         elif opt == '--keyid':
             key_id = arg
 
     # print top row index
     print('top index row: %s' % top_idx_param)
+    if bottom_idx_param:
+        print('bottom index row: %s' % bottom_idx_param)
 
     # print key
     key = os.getenv('GMAP_API_KEY_%s' % key_id)
@@ -241,6 +244,8 @@ def main(argv):
         # Download Daytime Satellite Imagery; retrieve and save images
         # note: set top index (from passed argument)
         top_idx = top_idx_param
+        if bottom_idx_param:
+            bottom_idx = bottom_idx_param
         m = 1
         for j in xrange(top_idx, bottom_idx + 1):
             for i in xrange(left_idx, right_idx + 1):
@@ -253,15 +258,17 @@ def main(argv):
                 if not os.path.isdir(file_path):
                     os.makedirs(file_path)
                 file_name = str(i) + '_' + str(j) +'.png'
-                print 'm: %s, lightness: %s, file_name: %s, url: %s' % (m, lightness, file_name, url)
                 save_img(url, file_path, file_name)
-                if m % 100 == 0:
-                    print m
+                if m % 50 == 0:
+                    print 'm: %s, lightness: %s, file_name: %s, url: %s' % (m, lightness, file_name, url)
                 m += 1
-                if m == 24000:
-                    print 'i: %s, j:%s' % (i, j)
+                if m == 24900:
+                    print 'i: %s, j:%s (%s iterations)' % (i, j, m)
                     stop
 
+    # print final indices
+    print '\ntop-left corner i:%s, j:%s\ni: %s, j:%s (N=%s iterations)\n' % (left_idx, top_idx, i, j, m)
+    
     # write indices for all countries' shape files
     columns = ['country', 'left_idx', 'top_idx', 'right_idx', 'bottom_idx', 'num_images']
     df = df[columns]
