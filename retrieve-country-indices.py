@@ -174,26 +174,29 @@ def help():
 # run main
 def main(argv):
     try:
-        #opts, args = getopt.getopt(argv, "h", ["topidx=", "bottomidx=", "keyid="])
-        opts, args = getopt.getopt(argv, "h", ["topidx=", "keyid="])
+        opts, args = getopt.getopt(argv, "h", ["topidx=", "bottomidx=", "keyid="])
     except getopt.GetoptError:
         sys.exit(2)
 
+    optlist = [opt for opt, arg in opts]
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             help()
             sys.exit(2)
         elif opt == '--topidx':
             top_idx_param = int(arg)
-        #elif opt == '--bottomidx':
-        #    bottom_idx_param = int(arg)
+        elif opt == '--bottomidx':
+            bottom_idx_param = int(arg)
         elif opt == '--keyid':
             key_id = arg
 
     # print top row index
-    print('top index row: %s' % top_idx_param)
-    #if bottom_idx_param:
-    #    print('bottom index row: %s' % bottom_idx_param)
+    if '--topidx' in optlist:
+        print('top index row: %s' % top_idx_param)
+
+    # print bottom row index
+    if '--bottomidx' in optlist:
+        print('bottom index row: %s' % bottom_idx_param)
 
     # print key
     key = os.getenv('GMAP_API_KEY_%s' % key_id)
@@ -244,9 +247,13 @@ def main(argv):
 
         # Download Daytime Satellite Imagery; retrieve and save images
         # note: set top index (from passed argument)
-        top_idx = top_idx_param
-        #if bottom_idx_param:
-        #    bottom_idx = bottom_idx_param
+        if '--topidx' in optlist:
+            top_idx = top_idx_param
+        
+        # print bottom row index
+        if '--bottomidx' in optlist:
+            bottom_idx = bottom_idx_param
+
         m = 1
         for j in xrange(top_idx, bottom_idx + 1):
             for i in xrange(left_idx, right_idx + 1):
