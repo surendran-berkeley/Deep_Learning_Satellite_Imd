@@ -242,8 +242,8 @@ def main(argv):
         # note: set top index (from passed argument)
         top_idx = top_idx_param
         m = 1
-        for i in xrange(left_idx, right_idx + 1):
-            for j in xrange(top_idx, bottom_idx + 1):
+        for j in xrange(top_idx, bottom_idx + 1):
+            for i in xrange(left_idx, right_idx + 1):
                 lon = centroid_x_coords[i]
                 lat = centroid_y_coords[j]
                 url = 'https://maps.googleapis.com/maps/api/staticmap?center=' + str(lat) + ',' + \
