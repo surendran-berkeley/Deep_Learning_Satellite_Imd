@@ -267,7 +267,7 @@ def main(argv):
                     stop
 
     # print final indices
-    print '\ntop-left corner i:%s, j:%s\ni: %s, j:%s (N=%s iterations)\n' % (left_idx, top_idx, i, j, m)
+    print '\ntop-left corner i:%s, j:%s\nfinal cell i: %s, j:%s\n(N=%s iterations)\n' % (left_idx, top_idx, i, j, m)
     
     # write indices for all countries' shape files
     columns = ['country', 'left_idx', 'top_idx', 'right_idx', 'bottom_idx', 'num_images']
