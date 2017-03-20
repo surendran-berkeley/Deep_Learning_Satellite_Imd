@@ -174,7 +174,6 @@ def help():
 # run main
 def main(argv):
     try:
-        #opts, args = getopt.getopt(argv, "h", ["topidx=", "bottomidx=", "keyid="])
         opts, args = getopt.getopt(argv, "h", ["topidx=", "keyid="])
     except getopt.GetoptError:
         sys.exit(2)
@@ -269,7 +268,7 @@ def main(argv):
 
     # print final indices
     print '\ntop-left corner i:%s, j:%s\nfinal cell i: %s, j:%s\n(N=%s iterations)\n' % (left_idx, top_idx, i, j, m)
-
+    
     # write indices for all countries' shape files
     columns = ['country', 'left_idx', 'top_idx', 'right_idx', 'bottom_idx', 'num_images']
     df = df[columns]
