@@ -174,25 +174,27 @@ def help():
 # run main
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "h", ["topidx=", "keyid="])
+        opts, args = getopt.getopt(argv, "h", ["topidx=", "bottomidx=", "keyid="])
     except getopt.GetoptError:
         sys.exit(2)
 
+    optlist = [opt for opt, arg in opts]
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             help()
             sys.exit(2)
         elif opt == '--topidx':
             top_idx_param = int(arg)
-        #elif opt == '--bottomidx':
-        #    bottom_idx_param = int(arg)
+        elif opt == '--bottomidx':
+            bottom_idx_param = int(arg)
         elif opt == '--keyid':
             key_id = arg
 
     # print top row index
-    print('top index row: %s' % top_idx_param)
-    #if bottom_idx_param:
-    #    print('bottom index row: %s' % bottom_idx_param)
+    if '--topidx' in optlist:
+        print('top index row: %s' % top_idx_param)
+    if '--bottomidx' in optlist:
+        print('bottom index row: %s' % bottom_idx_param)
 
     # print key
     key = os.getenv('GMAP_API_KEY_%s' % key_id)
@@ -211,7 +213,7 @@ def main(argv):
 
     # Now read in the shapefile for Rwanda and extract the edges of the country
     #countries = ['malawi', 'nigeria', 'rwanda', 'tanzania', 'uganda']
-    countries = ['malawi']
+    countries = ['rwanda']
 
     df = pd.DataFrame()
 
@@ -222,7 +224,7 @@ def main(argv):
         'tanzania':'TZGE7AFL.shp',
         'uganda':'UGGE71FL.shp',
     }
-
+    '''
     for country in countries:
         inShapefile = "data/shapefiles/%s/%s" % ( country, country_shp_files[country] )
         x_min_shp, x_max_shp, y_min_shp, y_max_shp = get_shp_extent(inShapefile)
@@ -241,6 +243,7 @@ def main(argv):
         }
         df = df.append(row, ignore_index=True)
 
+
         # Download Daytime Satellite Imagery; retrieve and save images
         # note: set top index (from passed argument)
         top_idx = top_idx_param
@@ -252,7 +255,7 @@ def main(argv):
                 lon = centroid_x_coords[i]
                 lat = centroid_y_coords[j]
                 url = 'https://maps.googleapis.com/maps/api/staticmap?center=' + str(lat) + ',' + \
-                       str(lon) + '&zoom=16&size=400x500&maptype=satellite&key=' + key
+                       str(lon) + '&zoom=14&size=400x500&maptype=satellite&key=' + key
                 lightness = bands_data[j, i, 0]
                 file_path = '/data/google_image/%s/' % country + str(lightness) + '/'
                 if not os.path.isdir(file_path):
@@ -266,14 +269,16 @@ def main(argv):
                     print 'i: %s, j:%s (%s iterations)' % (i, j, m)
                     stop
 
+
     # print final indices
     print '\ntop-left corner i:%s, j:%s\nfinal cell i: %s, j:%s\n(N=%s iterations)\n' % (left_idx, top_idx, i, j, m)
-    
+
     # write indices for all countries' shape files
     columns = ['country', 'left_idx', 'top_idx', 'right_idx', 'bottom_idx', 'num_images']
     df = df[columns]
     print df
     #df.to_csv('country-indices-num-images.csv')
+    '''
 
 if __name__ == "__main__":
     main(sys.argv[1:])

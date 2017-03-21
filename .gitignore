@@ -1,5 +1,6 @@
 *.npy
 *.swp
+*.pyc
 __pycache__/
 *country-indices-num-images*
 data/*
