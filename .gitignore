@@ -2,5 +2,5 @@
 *.swp
 *.pyc
 __pycache__/
-*country-indices-num-images*
+*.csv
 data/*
