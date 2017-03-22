@@ -224,6 +224,7 @@ def main(argv):
     # create dataframe; create dict of shapefile paths
     df = pd.DataFrame()
     country_shp_files = {
+        'ghana':'GHGE71FL.shp',
         'malawi':'MWGE71FL.shp',
         'nigeria':'NGGE71FL.shp',
         'rwanda':'Sector_Boundary_2012.shp',

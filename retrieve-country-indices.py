@@ -176,11 +176,12 @@ x_size, top_left_x_coords, top_left_y_coords, centroid_x_coords, centroid_y_coor
 #np.savez('data/nightlights/nightlight.npz', top_left_x_coords=top_left_x_coords, top_left_y_coords=top_left_y_coords, bands_data=bands_data)
 
 # Now read in the shapefile for Rwanda and extract the edges of the country
-countries = ['malawi', 'nigeria', 'rwanda', 'tanzania', 'uganda']
+countries = ['ghana', 'malawi', 'nigeria', 'rwanda', 'tanzania', 'uganda']
 
 df = pd.DataFrame()
 
 country_shp_files = {
+    'ghana':'GHGE71FL.shp',
     'malawi':'MWGE71FL.shp',
     'nigeria':'NGGE71FL.shp',
     'rwanda':'Sector_Boundary_2012.shp',
