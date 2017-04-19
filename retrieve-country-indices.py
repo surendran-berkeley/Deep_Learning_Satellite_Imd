@@ -176,17 +176,15 @@ x_size, top_left_x_coords, top_left_y_coords, centroid_x_coords, centroid_y_coor
 #np.savez('data/nightlights/nightlight.npz', top_left_x_coords=top_left_x_coords, top_left_y_coords=top_left_y_coords, bands_data=bands_data)
 
 # Now read in the shapefile for Rwanda and extract the edges of the country
-countries = ['ghana', 'malawi', 'nigeria', 'rwanda', 'tanzania', 'uganda']
+countries = ['ghana', 'malawi', 'rwanda', 'tanzania' ]
 
 df = pd.DataFrame()
 
 country_shp_files = {
-    'ghana':'GHGE71FL.shp',
-    'malawi':'MWGE71FL.shp',
-    'nigeria':'NGGE71FL.shp',
-    'rwanda':'Sector_Boundary_2012.shp',
-    'tanzania':'TZGE7AFL.shp',
-    'uganda':'UGGE71FL.shp',
+    'ghana':'2014/ghge71fl/GHGE71FL.shp',
+    'malawi':'2015_2016/mwge7afl/MWGE7AFL.shp',
+    'rwanda':'2014_2015/rwge71fl/RWGE71FL.shp',
+    'tanzania':'2015_2016/tzge7afl/TZGE7AFL.shp',
 }
 
 for country in countries:
@@ -198,6 +196,7 @@ for country in countries:
 
     num_images = (bottom_idx - top_idx + 1) * (right_idx - left_idx + 1)
     row = {
+      'data_year':country_shp_files[country].split('/')[0],
       'country':country,
       'left_idx':left_idx,
       'top_idx':top_idx,
@@ -208,7 +207,7 @@ for country in countries:
     df = df.append(row, ignore_index=True)
 
 # write indices for all countries' shape files
-columns = ['country', 'left_idx', 'top_idx', 'right_idx', 'bottom_idx', 'num_images']
+columns = ['data_year', 'country', 'left_idx', 'top_idx', 'right_idx', 'bottom_idx', 'num_images']
 df = df[columns]
 print df
-#df.to_csv('country-indices-num-images.csv')
+df.to_csv('country-indices-num-images.csv')
